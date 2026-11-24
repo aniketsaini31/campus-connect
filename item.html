@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details - Campus Connect</title>
+  <meta name="theme-color" content="#1e1b4b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/item.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">🔎</span>
+        <span>Campus Connect</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="browse.html" class="active">Browse Items</a>
+        <a href="report.html">Report Item</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="report.html" class="btn btn-primary">Report an Item</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <div class="container">
+      <a href="browse.html" class="back-link">← Back to all items</a>
+      <h1 id="pageTitle">Item details</h1>
+    </div>
+  </section>
+
+  <section class="section form-section">
+    <div class="container">
+
+      <div class="not-found" id="notFound" hidden>
+        <div class="empty-icon" aria-hidden="true">🔍</div>
+        <h3>Item not found</h3>
+        <p>This item may have been removed, or the link is incorrect.</p>
+        <a href="browse.html" class="btn btn-primary">Browse all items</a>
+      </div>
+
+      <div class="item-layout" id="itemLayout">
+
+        <article class="detail-card" id="itemDetails"></article>
+
+        <aside class="side-col">
+
+          <div class="claim-card" id="claimCard">
+            <div id="claimInfo"></div>
+
+            <form id="claimForm" novalidate hidden>
+              <h3>Claim this item</h3>
+              <p class="claim-note">To protect against false claims, the finder will check the private detail below before handing anything over.</p>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="c-name">Full name</label>
+                  <input type="text" id="c-name" maxlength="60" placeholder="Your full name" autocomplete="name">
+                  <p class="error-msg" id="err-c-name"></p>
+                </div>
+
+                <div class="field">
+                  <label for="c-scholar">Scholar number</label>
+                  <input type="text" id="c-scholar" maxlength="15" placeholder="Your scholar number" autocomplete="off">
+                  <p class="error-msg" id="err-c-scholar"></p>
+                </div>
+
+                <div class="field">
+                  <label for="c-contact">Contact (email or phone)</label>
+                  <input type="text" id="c-contact" maxlength="60" placeholder="you@example.com or 10-digit number" autocomplete="off">
+                  <p class="hint">Only the finder and admin can see this.</p>
+                  <p class="error-msg" id="err-c-contact"></p>
+                </div>
+
+                <div class="field">
+                  <label for="c-reason">Why do you believe it is yours?</label>
+                  <textarea id="c-reason" rows="3" maxlength="300" placeholder="Where and when you lost it, how you use it..."></textarea>
+                  <p class="error-msg" id="err-c-reason"></p>
+                </div>
+
+                <div class="field">
+                  <label for="c-detail">Private identifying detail 🔒</label>
+                  <textarea id="c-detail" rows="3" maxlength="200" placeholder="Something only the real owner would know, not visible in this listing"></textarea>
+                  <p class="hint">Example: a sticker inside the case, the lock screen photo, a name written inside.</p>
+                  <p class="error-msg" id="err-c-detail"></p>
+                </div>
+
+                <div class="field">
+                  <label class="check-row">
+                    <input type="checkbox" id="c-confirm">
+                    <span>I confirm this item belongs to me. I understand false claims can be reported to the administration.</span>
+                  </label>
+                  <p class="error-msg" id="err-c-confirm"></p>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg submit-btn">Submit claim</button>
+            </form>
+
+            <div class="claim-success" id="claimSuccess" hidden></div>
+          </div>
+
+          <div class="claim-card" id="myClaims" hidden></div>
+
+        </aside>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>Campus Connect</strong> · Lost &amp; Found Portal</div>
+      <div>
+        Name: <strong>Aniket Saini</strong> ·
+        Scholar No.: <strong>26U020017</strong> ·
+        <strong>FoCP (CSE-1003)</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/item.js"></script>
+</body>
+</html>
