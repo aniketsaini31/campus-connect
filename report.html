@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report an Item - Campus Connect</title>
+  <meta name="theme-color" content="#1e1b4b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/forms.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">🔎</span>
+        <span>Campus Connect</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse Items</a>
+        <a href="report.html" class="active">Report Item</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="report.html" class="btn btn-primary">Report an Item</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <div class="container">
+      <h1>Report an item</h1>
+      <p>Takes under a minute. Your private details are never shown on the public listing.</p>
+    </div>
+  </section>
+
+  <section class="section form-section">
+    <div class="container narrow">
+
+      <form id="reportForm" class="form-card" novalidate>
+
+        <div class="type-toggle" role="radiogroup" aria-label="Report type">
+          <label class="type-option selected" id="optLost">
+            <input type="radio" name="type" value="lost" checked>
+            <span class="t-icon" aria-hidden="true">😟</span>
+            <span><strong>I lost something</strong><small>Describe it so finders can spot it</small></span>
+          </label>
+          <label class="type-option" id="optFound">
+            <input type="radio" name="type" value="found">
+            <span class="t-icon" aria-hidden="true">🙌</span>
+            <span><strong>I found something</strong><small>Help it get back to its owner</small></span>
+          </label>
+        </div>
+
+        <h3 class="form-sub">Item details <span>shown publicly</span></h3>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="title">Item name</label>
+            <input type="text" id="title" maxlength="80" placeholder="e.g. Black wireless earphones" autocomplete="off">
+            <p class="error-msg" id="err-title"></p>
+          </div>
+
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="">Select a category</option>
+              <option>ID Card</option>
+              <option>Calculator</option>
+              <option>Electronics</option>
+              <option>Keys</option>
+              <option>Bottle</option>
+              <option>Bags</option>
+              <option>Books</option>
+              <option>Accessories</option>
+              <option>Clothing</option>
+              <option>Other</option>
+            </select>
+            <p class="error-msg" id="err-category"></p>
+          </div>
+
+          <div class="field">
+            <label for="location">Location</label>
+            <select id="location">
+              <option value="">Select a location</option>
+              <option>Library</option>
+              <option>Main Academic Block</option>
+              <option>Cafeteria</option>
+              <option>Hostel Block</option>
+              <option>Sports Ground</option>
+              <option>Auditorium</option>
+              <option>Parking Area</option>
+              <option>Other</option>
+            </select>
+            <p class="error-msg" id="err-location"></p>
+          </div>
+
+          <div class="field">
+            <label for="date">Date <span id="dateWord">lost</span></label>
+            <input type="date" id="date">
+            <p class="error-msg" id="err-date"></p>
+          </div>
+
+          <div class="field full">
+            <label for="description">Description</label>
+            <textarea id="description" rows="4" maxlength="400" placeholder="Colour, brand, size, condition, where exactly you noticed it. Do not include phone numbers or secret details here."></textarea>
+            <p class="error-msg" id="err-description"></p>
+          </div>
+        </div>
+
+        <h3 class="form-sub">Your details <span class="private-tag">🔒 private</span></h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="reporterName">Full name</label>
+            <input type="text" id="reporterName" maxlength="60" placeholder="Your full name" autocomplete="name">
+            <p class="error-msg" id="err-reporterName"></p>
+          </div>
+
+          <div class="field">
+            <label for="scholar">Scholar number</label>
+            <input type="text" id="scholar" maxlength="15" placeholder="Your scholar number" autocomplete="off">
+            <p class="error-msg" id="err-scholar"></p>
+          </div>
+
+          <div class="field full">
+            <label for="contact">Contact (email or phone)</label>
+            <input type="text" id="contact" maxlength="60" placeholder="you@example.com or 10-digit number" autocomplete="off">
+            <p class="hint">Only shared with the person handling the claim. Never shown publicly.</p>
+            <p class="error-msg" id="err-contact"></p>
+          </div>
+
+          <div class="field full">
+            <label for="privateDetail">Private identifying detail <span id="privateReq">(optional)</span></label>
+            <textarea id="privateDetail" rows="3" maxlength="200" placeholder="Something only the real owner would know"></textarea>
+            <p class="hint" id="privateHint">Optional. Something only you would know about your item. It stays hidden.</p>
+            <p class="error-msg" id="err-privateDetail"></p>
+          </div>
+        </div>
+
+        <div class="form-error" id="formError" hidden></div>
+
+        <button type="submit" class="btn btn-primary btn-lg submit-btn">Submit report</button>
+      </form>
+
+      <div class="success-card" id="successBox" hidden>
+        <div class="success-icon" aria-hidden="true">✅</div>
+        <h2>Report submitted</h2>
+        <p id="successText"></p>
+        <div class="success-actions">
+          <a href="browse.html" class="btn btn-primary">Browse items</a>
+          <a href="report.html" class="btn btn-outline">Report another</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>Campus Connect</strong> · Lost &amp; Found Portal</div>
+      <div>
+        Name: <strong>Aniket Saini</strong> ·
+        Scholar No.: <strong>26U020017</strong> ·
+        <strong>FoCP (CSE-1003)</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/report.js"></script>
+</body>
+</html>
