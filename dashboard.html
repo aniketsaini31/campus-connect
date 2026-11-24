@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Campus Connect</title>
+  <meta name="theme-color" content="#1e1b4b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">🔎</span>
+        <span>Campus Connect</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse Items</a>
+        <a href="report.html">Report Item</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="report.html" class="btn btn-primary">Report an Item</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <div class="container">
+      <h1>Dashboard</h1>
+      <p>Campus statistics, and the finder / admin panel for verifying claims and recording handovers.</p>
+    </div>
+  </section>
+
+  <section class="section dash-section">
+    <div class="container">
+
+      <div class="dash-stats" id="statGrid"></div>
+
+      <div class="dash-grid">
+        <div class="panel">
+          <h3>Reports by category</h3>
+          <div id="catBars"></div>
+        </div>
+        <div class="panel">
+          <h3>My reports</h3>
+          <div id="myReports"></div>
+        </div>
+      </div>
+
+      <div class="panel claims-panel">
+        <div class="panel-head">
+          <div>
+            <h3>Claim management</h3>
+            <p class="panel-sub">Check the claimant's private detail against the one recorded by the finder before approving.</p>
+          </div>
+        </div>
+        <p class="demo-note">🔒 Demo mode: claims are stored in this browser. After the database is connected, claim details will be visible only to the finder of that item and authorized admins.</p>
+
+        <div class="segmented dash-tabs" id="claimTabs" role="group" aria-label="Filter claims by status"></div>
+
+        <div id="claimList" class="claim-list"></div>
+
+        <div class="empty" id="claimEmpty" hidden>
+          <div class="empty-icon" aria-hidden="true">📭</div>
+          <h3>No claims here yet</h3>
+          <p>When someone claims an item, the claim appears here for verification.</p>
+          <a href="browse.html" class="btn btn-primary">Browse items</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>Campus Connect</strong> · Lost &amp; Found Portal</div>
+      <div>
+        Name: <strong>Aniket Saini</strong> ·
+        Scholar No.: <strong>26U020017</strong> ·
+        <strong>FoCP (CSE-1003)</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
