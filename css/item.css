@@ -1,0 +1,101 @@
+/* ===== Campus Connect - item details page ===== */
+[hidden] { display: none !important; }
+
+.back-link { display: inline-block; color: #c7d2fe; font-size: 0.9rem; margin-bottom: 10px; }
+.back-link:hover { color: #fff; }
+
+.item-layout {
+  position: relative;
+  z-index: 2;
+  margin-top: -52px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.side-col { display: grid; gap: 20px; }
+
+.detail-card, .claim-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 26px;
+}
+.detail-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.detail-head { display: flex; gap: 16px; align-items: center; }
+.detail-icon {
+  flex: none;
+  width: 68px; height: 68px;
+  border-radius: 18px;
+  background: var(--indigo-50);
+  display: grid; place-items: center;
+  font-size: 2.2rem;
+}
+.detail-head h2 { font-size: 1.5rem; letter-spacing: -0.01em; }
+.detail-desc { margin: 20px 0; color: #334155; }
+
+.meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.meta-box { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.meta-box small { display: block; color: var(--muted); font-size: 0.78rem; }
+.meta-box strong { font-size: 0.98rem; }
+
+.privacy-note {
+  margin-top: 20px;
+  background: var(--amber-100);
+  border: 1px solid #fde68a;
+  color: #78350f;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+}
+
+.claim-card h3 { font-size: 1.1rem; }
+.claim-note { color: var(--muted); font-size: 0.88rem; margin: 6px 0 16px; }
+.claim-card .form-grid { grid-template-columns: 1fr; }
+.check-row { display: flex; gap: 10px; align-items: flex-start; font-weight: 500 !important; font-size: 0.88rem !important; }
+.check-row input { width: auto; margin-top: 4px; }
+
+.info-box { text-align: center; padding: 8px 4px; }
+.info-box .big { font-size: 2.2rem; }
+.info-box h3 { margin: 8px 0 6px; }
+.info-box p { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; }
+
+.claim-success {
+  background: var(--green-100);
+  border: 1px solid #a7f3d0;
+  color: var(--green-800);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 16px;
+  font-size: 0.9rem;
+}
+
+.my-claim { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-top: 10px; }
+.my-claim .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.my-claim small { color: var(--muted); display: block; margin-top: 4px; }
+.pill-status { font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.pill-pending { background: var(--amber-100); color: var(--amber-700); }
+.pill-approved { background: var(--indigo-50); color: var(--indigo-700); }
+.pill-rejected { background: #fee2e2; color: #b91c1c; }
+.pill-returned { background: var(--green-100); color: var(--green-800); }
+
+.not-found {
+  text-align: center;
+  background: var(--card);
+  border: 1px dashed #c7d2fe;
+  border-radius: 20px;
+  padding: 56px 24px;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.not-found p { color: var(--muted); margin: 6px 0 18px; }
+
+@media (max-width: 860px) {
+  .item-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .meta-grid { grid-template-columns: 1fr; }
+}
