@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Items - Campus Connect</title>
+  <meta name="theme-color" content="#1e1b4b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">🔎</span>
+        <span>Campus Connect</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="browse.html" class="active">Browse Items</a>
+        <a href="report.html">Report Item</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="report.html" class="btn btn-primary">Report an Item</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <section class="page-head">
+    <div class="container">
+      <h1>Browse items</h1>
+      <p>Search everything reported around campus. Filter by type, category, location and status.</p>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH, FILTERS AND RESULTS ===== -->
+  <section class="section browse-section">
+    <div class="container">
+
+      <div class="toolbar">
+        <div class="search-box">
+          <span aria-hidden="true">🔍</span>
+          <input type="search" id="searchInput" placeholder="Search by item name, e.g. calculator" aria-label="Search items" autocomplete="off">
+        </div>
+
+        <div class="segmented" id="typeTabs" role="group" aria-label="Filter by lost or found">
+          <button type="button" class="seg active" data-type="all" aria-pressed="true">All</button>
+          <button type="button" class="seg" data-type="lost" aria-pressed="false">Lost</button>
+          <button type="button" class="seg" data-type="found" aria-pressed="false">Found</button>
+        </div>
+
+        <div class="filters">
+          <select id="categoryFilter" aria-label="Filter by category">
+            <option value="all">All categories</option>
+          </select>
+          <select id="locationFilter" aria-label="Filter by location">
+            <option value="all">All locations</option>
+          </select>
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="all">All statuses</option>
+            <option value="open">Open</option>
+            <option value="pending">Claim pending</option>
+            <option value="returned">Returned</option>
+          </select>
+          <button type="button" class="btn btn-outline" id="resetBtn">Reset filters</button>
+        </div>
+      </div>
+
+      <div class="results-bar"><span id="resultCount"></span></div>
+
+      <div class="items-grid" id="itemsGrid"></div>
+
+      <div class="empty" id="emptyState" hidden>
+        <div class="empty-icon" aria-hidden="true">🕵️</div>
+        <h3>No items match your search</h3>
+        <p>Try a different keyword, or clear your filters. If you can't find it, report it so others can help.</p>
+        <div class="empty-actions">
+          <button type="button" class="btn btn-outline" id="emptyResetBtn">Clear filters</button>
+          <a href="report.html" class="btn btn-primary">Report an item</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>Campus Connect</strong> · Lost &amp; Found Portal</div>
+      <div>
+        Name: <strong>Aniket Saini </strong> ·
+        Scholar No.: <strong>26U020017 </strong> ·
+        <strong>FoCP (CSE-1003)</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/browse.js"></script>
+</body>
+</html>
