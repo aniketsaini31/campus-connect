@@ -1,0 +1,123 @@
+/* ===== Campus Connect - form styles ===== */
+
+.form-section { padding-top: 0; }
+.narrow { width: min(760px, 92%); }
+
+.form-card {
+  position: relative;
+  z-index: 2;
+  margin-top: -52px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+.form-card[hidden], .success-card[hidden] { display: none; }
+
+/* Lost / Found toggle */
+.type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+.type-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.type-option:hover { border-color: #c7d2fe; }
+.type-option.selected { border-color: var(--indigo-600); background: var(--indigo-50); }
+.type-option input { position: absolute; opacity: 0; pointer-events: none; }
+.type-option:focus-within { box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25); }
+.t-icon { font-size: 1.8rem; }
+.type-option strong { display: block; font-size: 0.98rem; }
+.type-option small { color: var(--muted); font-size: 0.82rem; }
+
+.form-sub {
+  font-size: 1rem;
+  margin: 26px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.form-sub span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.form-sub .private-tag { color: var(--amber-700); background: var(--amber-100); border-color: #fde68a; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-weight: 600; font-size: 0.9rem; }
+.field label span { font-weight: 500; color: var(--muted); }
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 11px 13px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field textarea { resize: vertical; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 0;
+  border-color: var(--indigo-600);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+.field .invalid { border-color: #dc2626; }
+.hint { font-size: 0.8rem; color: var(--muted); }
+.error-msg { font-size: 0.82rem; color: #dc2626; min-height: 0; }
+.error-msg:empty { display: none; }
+
+.form-error {
+  margin-top: 18px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+.form-error[hidden] { display: none; }
+.submit-btn { width: 100%; margin-top: 22px; }
+
+/* Success */
+.success-card {
+  position: relative;
+  z-index: 2;
+  margin-top: -52px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 48px 28px;
+  text-align: center;
+  animation: fadeUp 0.5s ease both;
+}
+.success-icon { font-size: 3rem; }
+.success-card h2 { margin: 10px 0 8px; }
+.success-card p { color: var(--muted); max-width: 460px; margin-inline: auto; }
+.success-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+
+@media (max-width: 640px) {
+  .form-card { padding: 20px; }
+  .type-toggle, .form-grid { grid-template-columns: 1fr; }
+}
