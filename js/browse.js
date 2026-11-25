@@ -125,5 +125,5 @@
     render();
   }
 
-    CCReady.then(init);
+  CCReady.then(init);
 })();
