@@ -1,5 +1,10 @@
 /* Campus Connect - shared helpers (used on every page) */
 
+// Pages wait on this until the data is loaded
+window.CCReady = new Promise(function (resolve) {
+  window.__ccResolve = resolve;
+});
+
 // Stops user-typed text from being treated as HTML (prevents script injection)
 function escapeHTML(value) {
   return String(value).replace(/[&<>"']/g, function (ch) {
@@ -114,5 +119,8 @@ function initHome() {
 
 document.addEventListener("DOMContentLoaded", function () {
   initNav();
-  initHome();
+  // Pages that still use the old local store are ready immediately
+  if (!window.CC_FIREBASE) window.__ccResolve();
 });
+
+CCReady.then(initHome);
