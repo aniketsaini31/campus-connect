@@ -125,5 +125,5 @@
     render();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+    CCReady.then(init);
 })();
