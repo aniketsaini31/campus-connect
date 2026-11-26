@@ -1,4 +1,4 @@
-/* Campus Connect - Item details page and claim form */
+/* Campus Connect - Item details page and claim form (Firebase version) */
 (function () {
   "use strict";
 
@@ -56,6 +56,12 @@
       '<p class="privacy-note">🔒 For privacy, contact details, scholar numbers and identifying details are never shown on public listings.</p>';
   }
 
+  function hasActiveClaim() {
+    return CCStore.getMyClaims(item.id).some(function (c) {
+      return c.status === "pending" || c.status === "approved";
+    });
+  }
+
   function renderClaimArea() {
     var info = el("claimInfo");
     var form = el("claimForm");
@@ -77,8 +83,34 @@
       return;
     }
 
+    if (!CCStore.isSignedIn()) {
+      info.innerHTML =
+        '<div class="info-box"><div class="big" aria-hidden="true">🔐</div><h3>Sign in to claim</h3>' +
+        "<p>Sign in with Google so the finder can verify who is claiming this item.</p>" +
+        '<button type="button" class="btn btn-primary" id="signInBtn">Sign in with Google</button></div>';
+      el("signInBtn").addEventListener("click", function () { CCStore.signIn(); });
+      return;
+    }
+
+    if (CCStore.isMine(item)) {
+      info.innerHTML =
+        '<div class="info-box"><div class="big" aria-hidden="true">📋</div><h3>You reported this item</h3>' +
+        "<p>Claims on it appear in your dashboard, where you can verify and approve them.</p>" +
+        '<a href="dashboard.html" class="btn btn-primary">Open dashboard</a></div>';
+      return;
+    }
+
+    if (hasActiveClaim()) {
+      info.innerHTML =
+        '<div class="info-box"><div class="big" aria-hidden="true">⏳</div><h3>Your claim is in progress</h3>' +
+        "<p>The finder will check your private detail. You can track the status below.</p></div>";
+      return;
+    }
+
     info.innerHTML = "";
     form.hidden = false;
+    var user = CCStore.getUser();
+    if (user && user.displayName && !el("c-name").value) el("c-name").value = user.displayName;
   }
 
   function renderMyClaims() {
@@ -120,8 +152,9 @@
 
     if (val("c-name").length < 2) fail("c-name", "Enter your full name.");
 
-    var scholar = val("c-scholar");
-    if (!/^[A-Za-z0-9]{5,15}$/.test(scholar)) fail("c-scholar", "Enter a valid scholar number (letters and digits only).");
+    if (!/^[A-Za-z0-9]{5,15}$/.test(val("c-scholar"))) {
+      fail("c-scholar", "Enter a valid scholar number (letters and digits only).");
+    }
 
     var contact = val("c-contact");
     var isEmail = /^\S+@\S+\.\S+$/.test(contact);
@@ -132,18 +165,10 @@
     if (val("c-detail").length < 3) fail("c-detail", "Add a private detail that only the real owner would know.");
     if (!el("c-confirm").checked) fail("c-confirm", "Please confirm the item is yours.");
 
-    // Block the same person from filing a second active claim on this item
-    var duplicate = CCStore.getClaimsForItem(item.id).some(function (c) {
-      return c.scholarNumber.toLowerCase() === scholar.toLowerCase() &&
-        (c.status === "pending" || c.status === "approved");
-    });
-    if (ok && duplicate) {
-      fail("c-scholar", "You already have an active claim on this item.");
-    }
     return ok;
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
     if (!validate()) {
       var firstBad = el("claimForm").querySelector(".invalid");
@@ -165,19 +190,31 @@
       createdAt: new Date().toISOString()
     };
 
-    if (!CCStore.addClaim(claim)) {
-      alert("Could not save your claim. Check that your browser allows site storage and try again.");
+    var btn = el("claimForm").querySelector(".submit-btn");
+    btn.disabled = true;
+    btn.textContent = "Submitting...";
+
+    try {
+      await CCStore.addClaim(claim);
+    } catch (e) {
+      console.error(e);
+      alert("Could not submit your claim (" + (e.code || e.message) + "). Please try again.");
+      btn.disabled = false;
+      btn.textContent = "Submit claim";
       return;
     }
 
+    btn.disabled = false;
+    btn.textContent = "Submit claim";
     el("claimForm").reset();
+
     var success = el("claimSuccess");
     success.innerHTML =
       "<strong>Claim submitted.</strong> Your reference is <strong>" + escapeHTML(claim.id) +
       "</strong>. The finder will check your private detail and update the status below.";
     success.hidden = false;
 
-    renderDetails();
+    renderClaimArea();
     renderMyClaims();
   }
 
@@ -201,5 +238,5 @@
     el("claimForm").addEventListener("submit", onSubmit);
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  CCReady.then(init);
 })();
