@@ -1,4 +1,4 @@
-/* Campus Connect - Report form */
+/* Campus Connect - Report form (Firebase version) */
 (function () {
   "use strict";
 
@@ -25,10 +25,28 @@
     return form.querySelector('input[name="type"]:checked').value;
   }
 
-  // Update labels when switching between Lost and Found
+  // Shown instead of the form when nobody is signed in
+  function showGate() {
+    var gate = document.getElementById("signinGate");
+    if (!gate) {
+      gate = document.createElement("div");
+      gate.id = "signinGate";
+      gate.className = "form-card";
+      gate.style.textAlign = "center";
+      gate.innerHTML =
+        '<div style="font-size:2.6rem" aria-hidden="true">🔐</div>' +
+        "<h2>Sign in to report an item</h2>" +
+        '<p style="color:var(--muted);margin:8px auto 20px;max-width:440px">Signing in with Google lets finders and owners verify each other and keeps your private details safe. Your name, scholar number and contact are never shown publicly.</p>' +
+        '<button type="button" class="btn btn-primary btn-lg" id="gateBtn">Sign in with Google</button>';
+      form.parentNode.insertBefore(gate, form);
+      document.getElementById("gateBtn").addEventListener("click", function () { CCStore.signIn(); });
+    }
+    form.hidden = true;
+    gate.hidden = false;
+  }
+
   function applyType() {
-    var type = getType();
-    var isFound = type === "found";
+    var isFound = getType() === "found";
     optLost.classList.toggle("selected", !isFound);
     optFound.classList.toggle("selected", isFound);
     el("dateWord").textContent = isFound ? "found" : "lost";
@@ -59,9 +77,7 @@
 
     clearErrors();
 
-    var title = val("title");
-    if (title.length < 3) fail("title", "Enter the item name (at least 3 characters).");
-
+    if (val("title").length < 3) fail("title", "Enter the item name (at least 3 characters).");
     if (!val("category")) fail("category", "Choose a category.");
     if (!val("location")) fail("location", "Choose a location.");
 
@@ -70,7 +86,6 @@
     else if (date > todayString()) fail("date", "The date cannot be in the future.");
 
     if (val("description").length < 10) fail("description", "Add a short description (at least 10 characters).");
-
     if (val("reporterName").length < 2) fail("reporterName", "Enter your full name.");
 
     if (!/^[A-Za-z0-9]{5,15}$/.test(val("scholar"))) {
@@ -85,7 +100,6 @@
     if (getType() === "found" && val("privateDetail").length < 3) {
       fail("privateDetail", "For found items, add a private detail so you can verify the real owner.");
     }
-
     return ok;
   }
 
@@ -96,8 +110,10 @@
     return parts[0] + " " + parts[parts.length - 1].charAt(0).toUpperCase() + ".";
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
+    if (!CCStore.isSignedIn()) { showGate(); return; }
+
     if (!validate()) {
       var firstBad = form.querySelector(".invalid");
       if (firstBad) firstBad.focus();
@@ -107,7 +123,6 @@
     var type = getType();
     var id = "itm-" + Date.now();
 
-    // Public part: shown on listings
     var publicItem = {
       id: id,
       type: type,
@@ -120,7 +135,6 @@
       reporter: publicName(val("reporterName"))
     };
 
-    // Private part: never shown on listings
     var privateInfo = {
       fullName: val("reporterName"),
       scholarNumber: val("scholar"),
@@ -129,22 +143,43 @@
       createdAt: new Date().toISOString()
     };
 
-    var saved = CCStore.addReport(publicItem, privateInfo);
-    if (!saved) {
-      formError.textContent = "Could not save your report. Check that your browser allows site storage and try again.";
+    var btn = form.querySelector(".submit-btn");
+    btn.disabled = true;
+    btn.textContent = "Submitting...";
+
+    try {
+      await CCStore.addReport(publicItem, privateInfo);
+    } catch (e) {
+      console.error(e);
+      var why = e && e.code === "permission-denied"
+        ? " (permission denied: check that the Firestore rules are published)"
+        : "";
+      formError.textContent = "Could not save your report" + why + ". Please try again.";
       formError.hidden = false;
+      btn.disabled = false;
+      btn.textContent = "Submit report";
       return;
     }
 
     form.hidden = true;
     successText.textContent =
-      "Your " + type + " report for \"" + publicItem.title + "\" has been saved (reference " + id +
+      "Your " + type + " report for \"" + publicItem.title + "\" is now live for everyone on campus (reference " + id +
       "). Your name, scholar number, contact and private detail are not shown publicly.";
     successBox.hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function init() {
+    if (!CCStore.isSignedIn()) {
+      showGate();
+      return;
+    }
+
+    var user = CCStore.getUser();
+    if (user && user.displayName && !el("reporterName").value) {
+      el("reporterName").value = user.displayName;
+    }
+
     el("date").max = todayString();
     el("date").value = todayString();
 
@@ -155,7 +190,6 @@
       radio.addEventListener("change", applyType);
     });
 
-    // Remove an error as soon as the person starts fixing the field
     FIELD_IDS.forEach(function (id) {
       el(id).addEventListener("input", function () { setError(id, ""); });
       el(id).addEventListener("change", function () { setError(id, ""); });
@@ -165,5 +199,5 @@
     applyType();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  CCReady.then(init);
 })();
